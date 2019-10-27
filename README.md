@@ -1,5 +1,5 @@
-# MediaWiki OAuth2 Client
-MediaWiki implementation of the PHP League's [OAuth2 Client](https://github.com/thephpleague/oauth2-client), to allow MediaWiki to act as a client to any OAuth2 server. Currently maintained by [Schine GmbH](https://www.star-made.org/).
+#Discord Auth MediaWiki OAuth2 Client
+MediaWiki implementation of the PHP League's [OAuth2 Client](https://github.com/thephpleague/oauth2-client), to allow MediaWiki to act as a client to any OAuth2 server. Has additional Discord-specific functionality to assign users with certain roles to a mediawiki group, for private wiki auths. Currently maintained by nobody lmao.
 
 Requires MediaWiki 1.25+.
 
@@ -31,6 +31,9 @@ $wgOAuth2Client['configuration']['authorize_endpoint']     = ''; // Authorizatio
 $wgOAuth2Client['configuration']['access_token_endpoint']  = ''; // Token URL
 $wgOAuth2Client['configuration']['api_endpoint']           = ''; // URL to fetch user JSON
 $wgOAuth2Client['configuration']['redirect_uri']           = ''; // URL for OAuth2 server to redirect to
+$wgOAuth2Client['configuration']['server']		   = ''; // Discord Server ID
+$wgOAuth2Client['configuration']['roles']		   = ''; // Role IDs to assign to MediaWiki group
+$wgOAuth2Client['configuration']['group']		   = ''; // MediaWiki group to assign to
 
 $wgOAuth2Client['configuration']['username'] = 'username'; // JSON path to username
 $wgOAuth2Client['configuration']['email'] = 'email'; // JSON path to email

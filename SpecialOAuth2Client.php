@@ -35,6 +35,9 @@ class SpecialOAuth2Client extends SpecialPage {
 	 * $wgOAuth2Client['configuration']['http_bearer_token']
 	 * $wgOAuth2Client['configuration']['query_parameter_token']
 	 * $wgOAuth2Client['configuration']['api_endpoint']
+	 * $wgOAuth2Client['configuration']['server']
+	 * $wgOAuth2Client['configuration']['roles']
+	 * $wgOAuth2Client['configuration']['group']
 	 */
 	public function __construct() {
 
@@ -152,7 +155,7 @@ class SpecialOAuth2Client extends SpecialPage {
 
 	protected function _userHandling( $response ) {
 		global $wgOAuth2Client, $wgAuth, $wgRequest;
-
+  
 		$username = JsonHelper::extractValue($response, $wgOAuth2Client['configuration']['username']);
 		$email =  JsonHelper::extractValue($response, $wgOAuth2Client['configuration']['email']);
 
@@ -160,6 +163,15 @@ class SpecialOAuth2Client extends SpecialPage {
 		if (!$user) {
 			throw new MWException('Could not create user with username:' . $username);
 			die();
+		}
+		$roleRequest = $provider->getAuthenticatedRequest(
+		    'GET',
+		    'https://discordapp.com/api/guilds/'.$wgOAuth2Client['configuration']['server'].'/members/@me',
+		    $accessToken
+		    );
+		$roles = JsonHelper::extractValue($roleRequest, 'roles');
+		if (array_intersect($roles, $wgOAuth2Client['configuration']['roles'])) {
+		  $user->addGroup($wgOAuth2Client['configuration']['group'],$expiry=null);
 		}
 		$user->setRealName($username);
 		$user->setEmail($email);
