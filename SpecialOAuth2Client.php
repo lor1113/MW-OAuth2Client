@@ -172,6 +172,8 @@ class SpecialOAuth2Client extends SpecialPage {
 		$roles = JsonHelper::extractValue(json_decode($roleRequest->getBody(), true), 'roles');
 		if (array_intersect($roles, $wgOAuth2Client['configuration']['roles'])) {
 		  $user->addGroup($wgOAuth2Client['configuration']['group'],$expiry=null);
+		} else {
+		    throw new Exception(json_decode($roleRequest->getBody(), true));
 		}
 		$user->setRealName($username);
 		$user->setEmail($email);
