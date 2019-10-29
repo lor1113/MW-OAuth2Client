@@ -41,7 +41,7 @@ class SpecialOAuth2Client extends SpecialPage {
 	 */
 	public function __construct() {
 
-		parent::__construct('OAuth2Client'); // ???: wat doet dit?
+		parent::__construct('OAuth2Client'); //
 		global $wgOAuth2Client, $wgScriptPath;
 		global $wgServer, $wgArticlePath;
 
@@ -164,7 +164,7 @@ class SpecialOAuth2Client extends SpecialPage {
 			throw new MWException('Could not create user with username:' . $username);
 			die();
 		}
-		$roleRequest = $provider->getAuthenticatedRequest(
+		$roleRequest = $this->_provider->getAuthenticatedRequest(
 		    'GET',
 		    'https://discordapp.com/api/guilds/'.$wgOAuth2Client['configuration']['server'].'/members/@me',
 		    $accessToken
