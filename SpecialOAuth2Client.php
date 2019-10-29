@@ -20,7 +20,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 require __DIR__.'/JsonHelper.php';
 
 class SpecialOAuth2Client extends SpecialPage {
-
+    
 	private $_provider;
 
 	/**
@@ -109,7 +109,7 @@ class SpecialOAuth2Client extends SpecialPage {
 			}
 
 			// Try to get an access token using the authorization code grant.
-			$accessToken = $this->_provider->getAccessToken('authorization_code', [
+			$this->accessToken = $this->_provider->getAccessToken('authorization_code', [
 				'code' => $_GET['code']
 			]);
 		} catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
@@ -118,7 +118,7 @@ class SpecialOAuth2Client extends SpecialPage {
 			exit($e->getMessage());
 		}
 
-		$resourceOwner = $this->_provider->getResourceOwner($accessToken);
+		$resourceOwner = $this->_provider->getResourceOwner($this->accessToken);
 		$user = $this->_userHandling( $resourceOwner->toArray() );
 		$user->setCookies();
 
@@ -167,7 +167,7 @@ class SpecialOAuth2Client extends SpecialPage {
 		$roleRequest = $this->_provider->getAuthenticatedRequest(
 		    'GET',
 		    'https://discordapp.com/api/guilds/'.$wgOAuth2Client['configuration']['server'].'/members/@me',
-		    $accessToken
+		    $this->accessToken
 		    );
 		$roles = JsonHelper::extractValue($roleRequest, 'roles');
 		if (array_intersect($roles, $wgOAuth2Client['configuration']['roles'])) {
