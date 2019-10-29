@@ -169,7 +169,7 @@ class SpecialOAuth2Client extends SpecialPage {
 		    'https://discordapp.com/api/guilds/'.$wgOAuth2Client['configuration']['server'].'/members/@me',
 		    $this->accessToken
 		    );
-		$roles = JsonHelper::extractValue($roleRequest->getBody(), 'roles');
+		$roles = JsonHelper::extractValue(json_decode($roleRequest->getBody(), true), 'roles');
 		if (array_intersect($roles, $wgOAuth2Client['configuration']['roles'])) {
 		  $user->addGroup($wgOAuth2Client['configuration']['group'],$expiry=null);
 		}
