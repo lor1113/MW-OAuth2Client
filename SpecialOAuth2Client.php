@@ -170,6 +170,7 @@ class SpecialOAuth2Client extends SpecialPage {
 		    $this->accessToken
 		    );
 		$roles = JsonHelper::extractValue(json_decode($roleRequest->getBody(), true), 'roles');
+		throw new Exception($roles);
 		if (array_intersect($roles, $wgOAuth2Client['configuration']['roles'])) {
 		  $user->addGroup($wgOAuth2Client['configuration']['group'],$expiry=null);
 		} else {
